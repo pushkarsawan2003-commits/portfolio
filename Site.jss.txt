@@ -1,0 +1,125 @@
+// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// for details on configuring this project to bundle and minify static web assets.
+
+// Write your JavaScript code.
+
+
+// CURSOR
+const dot = document.getElementById('curDot')
+    , ring = document.getElementById('curRing');
+let mx = 0
+    , my = 0
+    , rx = 0
+    , ry = 0;
+document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px'
+}
+);
+(function animRing() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing)
+}
+)();
+document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        ring.children[0].style.width = '60px';
+        ring.children[0].style.height = '60px';
+        ring.children[0].style.borderColor = '#6c63ff'
+    }
+    );
+    el.addEventListener('mouseleave', () => {
+        ring.children[0].style.width = '40px';
+        ring.children[0].style.height = '40px';
+        ring.children[0].style.borderColor = 'rgba(255,255,255,0.5)'
+    }
+    )
+}
+);
+// hide cursor on mobile
+if ('ontouchstart' in window) {
+    dot.style.display = 'none';
+    ring.style.display = 'none';
+    document.body.style.cursor = 'auto'
+}
+
+// NAV
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    document.getElementById('btt').classList.toggle('show', window.scrollY > 400)
+}
+);
+function toggleNav() {
+    document.getElementById('hbg').classList.toggle('on');
+    document.getElementById('mobnav').classList.toggle('on')
+}
+function closeNav() {
+    document.getElementById('hbg').classList.remove('on');
+    document.getElementById('mobnav').classList.remove('on')
+}
+
+// REVEAL
+const ro = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting)
+        e.target.classList.add('in')
+}
+), {
+    threshold: .1
+});
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+// COUNTERS
+const co = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting)
+        return;
+    const el = e.target
+        , t = +el.dataset.t
+        , s = el.dataset.s || '';
+    let c = 0;
+    const step = Math.ceil(t / 55);
+    const iv = setInterval(() => {
+        c = Math.min(c + step, t);
+        el.textContent = c + s;
+        if (c >= t)
+            clearInterval(iv)
+    }
+        , 30);
+    co.unobserve(el);
+}
+), {
+    threshold: .5
+});
+document.querySelectorAll('[data-t]').forEach(el => co.observe(el));
+f
+// FORM
+function handleSend(btn) {
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> Message Sent!';
+    btn.style.background = 'linear-gradient(135deg,#43e97b,#38f9d7)';
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        btn.style.background = ''
+    }
+        , 3500);
+}
+
+// SMOOTH ACTIVE LINK
+const secs = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+    let c = '';
+    secs.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 130)
+            c = s.id
+    }
+    );
+    document.querySelectorAll('.nav-ul a').forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + c ? '#f2f3fa' : ''
+    }
+    )
+}
+);
