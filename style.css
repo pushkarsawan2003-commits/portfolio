@@ -4,6 +4,11 @@
     }
 }
 
+.profile-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
 
 *::before, *::after {
     margin: 0;
