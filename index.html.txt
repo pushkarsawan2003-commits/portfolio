@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello, World!</title>
+    <title>portpolio</title>
     <link rel="stylesheet" href="styles.css" />
     
       <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
